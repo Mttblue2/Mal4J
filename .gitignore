@@ -5,3 +5,7 @@ target
 /src/test/java/resources/*.txt
 /anime-list-*.txt
 /manga-list-*.txt
+.classpath
+.project
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.jdt.core.prefs
