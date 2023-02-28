@@ -174,6 +174,24 @@ final class MyAnimeListImpl extends MyAnimeList {
             )
         ));
     }
+    
+    @Override
+    public final JsonObject getAnimeSchema(final long id){
+        return getAnimeSchema(id, (String[]) null);
+    }
+
+    @Override
+    public final JsonObject getAnimeSchema(final long id, final String... fields){
+        return
+        handleResponse(
+            () -> service.getAnime(
+                isTokenAuth ? token : null,
+                !isTokenAuth ? client_id : null,
+                id,
+                convertFields(Fields.anime, fields)
+            )
+        );
+    }
 
     @Override
     public final AnimeRankingQuery getAnimeRanking(final AnimeRankingType rankingType){

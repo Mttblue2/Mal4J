@@ -31,7 +31,7 @@ import static dev.katsute.mal4j.Json.Type.*;
  * A massively simplified json parsing class. Supports the bare minimum read requirements for the REST API responses.
  */
 @SuppressWarnings("SpellCheckingInspection")
-final class Json {
+public final class Json {
 
     private final String json;
     private final int len;
@@ -737,7 +737,7 @@ final class Json {
     /**
      * Represents map as a json object.
      */
-    static class JsonObject {
+    public static class JsonObject {
 
         private final Map<String,Object> map = new HashMap<>();
 

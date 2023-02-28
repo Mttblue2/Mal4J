@@ -18,6 +18,7 @@
 
 package dev.katsute.mal4j;
 
+import dev.katsute.mal4j.Json.JsonObject;
 import dev.katsute.mal4j.anime.Anime;
 import dev.katsute.mal4j.anime.property.AnimeRankingType;
 import dev.katsute.mal4j.anime.property.time.Season;
@@ -174,6 +175,14 @@ public abstract class MyAnimeList {
      * @since 1.0.0
      */
     public abstract Anime getAnime(final long id, final String... fields);
+    
+//	anime schema
+    
+    // Returns full Anime Schema JsonObject from a given ID
+    public abstract JsonObject getAnimeSchema(final long id);
+    
+    // Returns Anime Schema JsonObject details requested in the fields given an ID
+    public abstract JsonObject getAnimeSchema(final long id, final String... fields);
 
 // anime ranking
 
