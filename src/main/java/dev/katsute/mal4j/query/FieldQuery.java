@@ -20,9 +20,7 @@ package dev.katsute.mal4j.query;
 
 import dev.katsute.mal4j.Fields;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a field query. Returns all fields by default.
@@ -41,7 +39,7 @@ public abstract class FieldQuery<T extends FieldQuery<T,R>,R> extends LimitOffse
 
     protected List<String> fields = null;
 
-    FieldQuery(){ }
+    FieldQuery() { }
 
     /**
      * Adds a field to return.

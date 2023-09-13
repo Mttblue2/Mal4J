@@ -1,15 +1,11 @@
 package dev.katsute.mal4j;
 
-import dev.katsute.mal4j.anime.Anime;
-import dev.katsute.mal4j.anime.AnimeRecommendation;
-import dev.katsute.mal4j.anime.RelatedAnime;
+import dev.katsute.mal4j.anime.*;
 import dev.katsute.mal4j.anime.property.OpeningTheme;
 import dev.katsute.mal4j.anime.property.Video;
-import dev.katsute.mal4j.character.Character;
 import dev.katsute.mal4j.manga.MangaListStatus;
 import dev.katsute.mal4j.manga.property.MangaStatus;
 import dev.katsute.mal4j.manga.property.RereadValue;
-import dev.katsute.mal4j.people.Person;
 import dev.katsute.mal4j.property.Genre;
 import dev.katsute.mal4j.property.Priority;
 
@@ -57,10 +53,6 @@ abstract class TestREADME {
         AnimeRecommendation[] recs = anime.getRecommendations();
         OpeningTheme[] op = anime.getOpeningThemes();
         Video[] PV = anime.getVideos();
-        List<Character> characters = anime.getCharacters().search();
-
-        Character character = mal.getCharacter(61371);
-        Person person = mal.getPerson(10765);
     }
 
     // setup

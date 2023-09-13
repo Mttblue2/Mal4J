@@ -17,21 +17,16 @@
  */
 package dev.katsute.mal4j;
 
-import dev.katsute.mal4j.property.AlternativeTitles;
-import dev.katsute.mal4j.property.Genre;
-import dev.katsute.mal4j.property.Picture;
+import dev.katsute.mal4j.property.*;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 @SuppressWarnings("unused")
 abstract class MyAnimeListSchema_Common extends MyAnimeListSchema {
 
     static AlternativeTitles asAlternativeTitles(final MyAnimeList mal, final Json.JsonObject schema){
-        return schema == null ? null : new AlternativeTitles(){
+        return schema == null ? null : new AlternativeTitles() {
 
             private final String[] synonyms = schema.getStringArray("synonyms");
             private final String english    = schema.getString("en");
@@ -40,17 +35,17 @@ abstract class MyAnimeListSchema_Common extends MyAnimeListSchema {
             // API methods
 
             @Override
-            public final String[] getSynonyms(){
+            public final String[] getSynonyms() {
                 return synonyms != null ? Arrays.copyOf(synonyms, synonyms.length) : null;
             }
 
             @Override
-            public final String getEnglish(){
+            public final String getEnglish() {
                 return english;
             }
 
             @Override
-            public final String getJapanese(){
+            public final String getJapanese() {
                 return japanese;
             }
 
@@ -69,7 +64,7 @@ abstract class MyAnimeListSchema_Common extends MyAnimeListSchema {
     }
 
     static Picture asPicture(final MyAnimeList mal, final Json.JsonObject schema){
-        return schema == null ? null : new Picture(){
+        return schema == null ? null : new Picture() {
 
             private final String medium = schema.getString("medium");
             private final String large  = schema.getString("large");
@@ -77,12 +72,12 @@ abstract class MyAnimeListSchema_Common extends MyAnimeListSchema {
             // API methods
 
             @Override
-            public final String getMediumURL(){
+            public final String getMediumURL() {
                 return medium;
             }
 
             @Override
-            public final String getLargeURL(){
+            public final String getLargeURL() {
                 return large;
             }
 
@@ -100,7 +95,7 @@ abstract class MyAnimeListSchema_Common extends MyAnimeListSchema {
     }
 
     static Genre asGenre(final MyAnimeList mal, final Json.JsonObject schema, final boolean animeGenre){
-        return schema == null ? null : new Genre(){
+        return schema == null ? null : new Genre() {
 
             private final Integer id = schema.getInt("id");
             private final String name = schema.getString("name");
@@ -154,27 +149,6 @@ abstract class MyAnimeListSchema_Common extends MyAnimeListSchema {
             }
 
         };
-    }
-
-    // <br( ?\/?)?>
-    @SuppressWarnings("RegExpRedundantEscape")
-    private static final Pattern br = Pattern.compile("<br( ?\\/?)?>");
-
-    // (\r?\n)+
-    private static final Pattern rn = Pattern.compile("(\\r?\\n)+");
-
-    static Map<String,String> asMap(final String s){
-        final HashMap<String,String> map = new HashMap<>();
-        for(final String ln : rn.split(br.matcher(s).replaceAll(""))){
-            int cn = ln.indexOf(':');
-            if(cn > 0)
-                map.put(ln.substring(0, cn).trim(), ln.substring(cn + 1).trim());
-            else if(map.containsKey("*"))
-                map.put("*", (map.get("*") + '\n' + ln).trim());
-            else
-                map.put("*", ln.trim());
-        }
-        return map;
     }
 
 }

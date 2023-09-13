@@ -16,7 +16,7 @@
     <br>
         <a href="https://mvnrepository.com/artifact/dev.katsute/mal4j">Maven Central</a>
         •
-        <a href="https://github.com/KatsuteDev/Mal4J/packages/1769630">GitHub Packages</a>
+        <a href="https://github.com/KatsuteDev/Mal4J/packages/1104772">GitHub Packages</a>
         •
         <a href="https://github.com/KatsuteDev/Mal4J/releases">Releases</a>
     </div>
@@ -34,7 +34,7 @@ This library supports read and write operations, including list updates.
  - [💼 License](#-license)
  - [⚠️️ Disclaimer](#%EF%B8%8F%EF%B8%8F-disclaimer)
 
-<div align="right"><a href="#top"><code>▲</code></a></div>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## 📃 Installation
 
@@ -43,12 +43,12 @@ Mal4J requires at least Java 8. No additional dependencies/libraries are require
 Compiled binaries can be installed from:
 
  - [Maven Central](https://mvnrepository.com/artifact/dev.katsute/mal4j)
- - [GitHub Packages](https://github.com/KatsuteDev/Mal4J/packages/1769630)
+ - [GitHub Packages](https://github.com/KatsuteDev/Mal4J/packages/1104772)
  - [Releases](https://github.com/KatsuteDev/Mal4J/releases)
 
 See [setup](https://github.com/KatsuteDev/Mal4J/blob/main/setup.md#readme) for steps to authenticate and actually use this library.
 
-<div align="right"><a href="#top"><code>▲</code></a></div>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## ✨ Features
 
@@ -89,7 +89,7 @@ MangaListStatus status =
 
 #### 📦 Everything Else
 
-**All** information provided in the [MyAnimeList API](https://myanimelist.net/apiconfig/references/api/v2) including Anime, Manga, forums, genres, pictures, statistics, and characters, are accessible in this library.
+**All** information provided in the [MyAnimeList API](https://myanimelist.net/apiconfig/references/api/v2) including Anime, Manga, forums, genres, pictures, and statistics, are accessible in this library.
 
 ```java
 MyAnimeList mal = MyAnimeList.withClientID("");
@@ -101,25 +101,22 @@ RelatedAnime[] relatedAnime = anime.getRelatedAnime();
 AnimeRecommendation[] recs = anime.getRecommendations();
 OpeningTheme[] op = anime.getOpeningThemes();
 Video[] PV = anime.getVideos();
-List<Character> characters = anime.getCharacters().search();
-
-Character character = mal.getCharacter(61371);
-Person person = mal.getPerson(10765);
 ```
 
-<div align="right"><a href="#top"><code>▲</code></a></div>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## 👨‍💻 Contributing
 
-<!-- Copilot -->
+<!-- GitHub Copilot Disclaimer -->
 <table>
-    <img alt="GitHub Copilot" align="left" src="https://raw.githubusercontent.com/Katsute/Manager/main/assets/copilot-dark.png#gh-dark-mode-only" width="50">
-    <img alt="Open AI" align="left" src="https://raw.githubusercontent.com/Katsute/Manager/main/assets/openai-dark.png#gh-dark-mode-only" width="50">
-    <img alt="GitHub Copilot" align="left" src="https://raw.githubusercontent.com/Katsute/Manager/main/assets/copilot-light.png#gh-light-mode-only" width="50">
-    <img alt="Open AI" align="left" src="https://raw.githubusercontent.com/Katsute/Manager/main/assets/openai-light.png#gh-light-mode-only" width="50">
-    <p>AI generated code is <b>strictly prohibited</b> on this repository.</p>
+    <img alt="GitHub Copilot" align="left" src="https://raw.githubusercontent.com/KatsuteDev/.github/main/profile/copilot-dark.png#gh-dark-mode-only" width="50">
+    <img alt="GitHub Copilot" align="left" src="https://raw.githubusercontent.com/KatsuteDev/.github/main/profile/copilot-light.png#gh-light-mode-only" width="50">
+    <p>GitHub Copilot is <b>strictly prohibited</b> on this repository.<br>Pulls using this will be rejected.</p>
 </table>
-<!-- Copilot -->
+<!-- GitHub Copilot Disclaimer -->
+
+ - Found a bug? Post it in [issues](https://github.com/KatsuteDev/Mal4J/issues).
+ - Want to further expand our project? [Fork](https://github.com/KatsuteDev/Mal4J/fork) this repository and submit a [pull request](https://github.com/KatsuteDev/Mal4J/pulls).
 
 #### ⚠️️ Before you start
 
@@ -141,7 +138,7 @@ Please note that the client ID being used for tests must not have a client secre
 
 Tests can be run using GitHub Actions by running the `MyAnimeList CI` workflow manually in the actions tab of your fork. Note that this requires two secrets, a `MAL_CLIENT` which contains the client ID, and a `MAL_TOKEN` which contains the OAuth token (ex: `Bearer <oauth token>`).
 
-<div align="right"><a href="#top"><code>▲</code></a></div>
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <hr>
 
@@ -154,4 +151,4 @@ This library is released under the [GNU General Public License (GPL) v2.0](https
  - [@Katsute](https://github.com/Katsute) and [@KatsuteDev](https://github.com/KatsuteDev) are not affiliated with MyAnimeList.
  - By using the MyAnimeList API you are subject to their [Terms Of Service](https://myanimelist.net/static/apiagreement.html).
 
-<div align="right"><a href="#top"><code>▲</code></a></div>
+<p align="right">(<a href="#top">back to top</a>)</p>

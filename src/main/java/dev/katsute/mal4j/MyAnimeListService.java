@@ -56,16 +56,6 @@ interface MyAnimeListService {
         @Query(value = "fields", encoded = true)    final String fields
     );
 
-    @Endpoint(method="GET", value="anime/{anime_id}/characters")
-    Response<JsonObject> getAnimeCharacters(
-        @Header("Authorization")                    final String token,
-        @Header("X-MAL-CLIENT-ID")                  final String client_id,
-        @Path(value = "anime_id")                   final Long anime_id,
-        @Query("limit")                             final Integer limit,
-        @Query("offset")                            final Integer offset,
-        @Query(value = "fields", encoded = true)    final String fields
-    );
-
     @Endpoint(method="GET", value="anime/ranking")
     Response<JsonObject> getAnimeRanking(
         @Header("Authorization")                    final String token,
@@ -138,16 +128,6 @@ interface MyAnimeListService {
         @Query("offset")                            final Integer offset,
         @Query(value = "fields", encoded = true)    final String fields,
         @Query("nsfw")                              final Boolean nsfw
-    );
-
-    // character
-
-    @Endpoint(method="GET", value="characters/{character_id}")
-    Response<JsonObject> getCharacter(
-        @Header("Authorization")                    final String token,
-        @Header("X-MAL-CLIENT-ID")                  final String client_id,
-        @Path(value = "character_id")               final Long character_id,
-        @Query(value = "fields", encoded = true)    final String fields
     );
 
     // forum
@@ -253,16 +233,6 @@ interface MyAnimeListService {
         @Query("offset")                            final Integer offset,
         @Query(value = "fields", encoded = true)    final String fields,
         @Query("nsfw")                              final Boolean nsfw
-    );
-
-    // people
-
-    @Endpoint(method="GET", value="people/{person_id}")
-    Response<JsonObject> getPerson(
-        @Header("Authorization")                    final String token,
-        @Header("X-MAL-CLIENT-ID")                  final String client_id,
-        @Path(value = "person_id")                  final Long person_id,
-        @Query(value = "fields", encoded = true)    final String fields
     );
 
     // user

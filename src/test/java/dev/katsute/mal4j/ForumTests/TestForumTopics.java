@@ -3,10 +3,7 @@ package dev.katsute.mal4j.ForumTests;
 import dev.katsute.mal4j.MyAnimeList;
 import dev.katsute.mal4j.TestProvider;
 import dev.katsute.mal4j.forum.ForumTopic;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 

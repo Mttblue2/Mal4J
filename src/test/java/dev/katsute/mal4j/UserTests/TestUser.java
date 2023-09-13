@@ -1,8 +1,6 @@
 package dev.katsute.mal4j.UserTests;
 
-import dev.katsute.mal4j.Fields;
-import dev.katsute.mal4j.MyAnimeList;
-import dev.katsute.mal4j.TestProvider;
+import dev.katsute.mal4j.*;
 import dev.katsute.mal4j.property.ExperimentalFeature;
 import dev.katsute.mal4j.user.User;
 import dev.katsute.mal4j.user.property.AnimeAffinity;

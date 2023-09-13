@@ -22,7 +22,7 @@ package dev.katsute.mal4j;
  * The fields class holds all possible fields for a request. Usable in any methods that ask for fields.
  *
  * @since 1.1.0
- * @version 3.4.0
+ * @version 2.10.0
  * @author Katsute
  */
 public abstract class Fields {
@@ -551,105 +551,7 @@ public abstract class Fields {
         Manga.my_list_status,
         Manga.authors,
         Manga.serialization
-    );
-
-    // character
-
-    /**
-     * All possible fields for a character.
-     *
-     * @see #character
-     * @since 3.1.0
-     * @version 3.4.0
-     * @author Katsute
-     */
-    public static class Character {
-
-        private Character(){}
-
-        public static final String id = "id";
-
-        public static final String first_name = "first_name";
-
-        public static final String last_name = "last_name";
-
-        public static final String alternative_name = "alternative_name";
-
-        public static final String main_picture = "main_picture";
-
-        public static final String num_favorites = "num_favorites";
-
-        public static final String pictures = "pictures";
-
-        public static final String biography = "biography";
-
-        @SuppressWarnings("SpellCheckingInspection")
-        public static final String animeography = "animeography";
-
-    }
-
-    /**
-     * Returns all character fields as a comma separated string.
-     *
-     * @see Character
-     * @since 3.1.0
-     */
-    public static final String character = String.join(",",
-        Character.id,
-        Character.first_name,
-        Character.last_name,
-        Character.alternative_name,
-        Character.main_picture,
-        Character.num_favorites,
-        Character.pictures,
-        Character.biography,
-        Character.animeography
-    );
-
-    // person
-
-    /**
-     * All possible fields for a person.
-     *
-     * @see #people
-     * @since 3.2.0
-     * @version 3.4.0
-     */
-    public static class People {
-
-        private People(){}
-
-        public static final String first_name = "first_name";
-
-        public static final String last_name = "last_name";
-
-        public static final String birthday = "birthday";
-
-        public static final String alternative_names = "alternative_names";
-
-        public static final String main_picture = "main_picture";
-
-        public static final String num_favorites = "num_favorites";
-
-        public static final String more = "more";
-
-    }
-
-    /**
-     * Returns all people fields as a comma separated string.
-     *
-     * @see People
-     * @since 3.2.0
-     */
-    public static final String people = String.join(",",
-        People.first_name,
-        People.last_name,
-        People.birthday,
-        People.alternative_names,
-        People.main_picture,
-        People.num_favorites,
-        People.more
-    );
+   );
 
     // user
 
@@ -676,7 +578,7 @@ public abstract class Fields {
     }
 
     /**
-     * Returns all user fields as a comma separated string.
+     * Returns all User fields as a comma separated string.
      *
      * @see User
      * @since 1.1.0

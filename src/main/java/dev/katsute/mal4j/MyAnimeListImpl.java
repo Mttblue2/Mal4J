@@ -21,24 +21,12 @@ package dev.katsute.mal4j;
 import dev.katsute.mal4j.APIStruct.Response;
 import dev.katsute.mal4j.Json.JsonObject;
 import dev.katsute.mal4j.anime.*;
-import dev.katsute.mal4j.anime.Anime;
-import dev.katsute.mal4j.anime.AnimeListStatus;
-import dev.katsute.mal4j.anime.AnimeRanking;
 import dev.katsute.mal4j.anime.property.AnimeRankingType;
 import dev.katsute.mal4j.anime.property.time.Season;
-import dev.katsute.mal4j.character.Character;
-import dev.katsute.mal4j.exception.ExperimentalFeatureException;
-import dev.katsute.mal4j.exception.HttpException;
-import dev.katsute.mal4j.exception.InvalidTokenException;
-import dev.katsute.mal4j.forum.ForumCategory;
-import dev.katsute.mal4j.forum.ForumTopic;
-import dev.katsute.mal4j.forum.ForumTopicDetail;
-import dev.katsute.mal4j.forum.Post;
-import dev.katsute.mal4j.manga.Manga;
-import dev.katsute.mal4j.manga.MangaListStatus;
-import dev.katsute.mal4j.manga.MangaRanking;
+import dev.katsute.mal4j.exception.*;
+import dev.katsute.mal4j.forum.*;
+import dev.katsute.mal4j.manga.*;
 import dev.katsute.mal4j.manga.property.MangaRankingType;
-import dev.katsute.mal4j.people.Person;
 import dev.katsute.mal4j.property.ExperimentalFeature;
 import dev.katsute.mal4j.query.*;
 import dev.katsute.mal4j.user.User;
@@ -46,20 +34,15 @@ import dev.katsute.mal4j.user.User;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import static dev.katsute.mal4j.Json.*;
 import static dev.katsute.mal4j.MyAnimeListSchema_Anime.*;
-import static dev.katsute.mal4j.MyAnimeListSchema_Character.*;
 import static dev.katsute.mal4j.MyAnimeListSchema_Forum.*;
 import static dev.katsute.mal4j.MyAnimeListSchema_Manga.*;
-import static dev.katsute.mal4j.MyAnimeListSchema_People.*;
 import static dev.katsute.mal4j.MyAnimeListSchema_User.*;
 
 final class MyAnimeListImpl extends MyAnimeList {
@@ -108,7 +91,7 @@ final class MyAnimeListImpl extends MyAnimeList {
     private final List<ExperimentalFeature> enabledFeatures = new ArrayList<>();
 
     @SuppressWarnings("SameParameterValue")
-    final void checkExperimentalFeatureEnabled(final ExperimentalFeature feature){
+    final void checkExperimentalFeatureEnabled(final ExperimentalFeature feature) {
         if(nativeFeatures.contains(feature) || enabledFeatures.contains(feature) || enabledFeatures.contains(ExperimentalFeature.ALL))
             return;
 
@@ -131,7 +114,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final AnimeSearchQuery getAnime(){
-        return new AnimeSearchQuery(){
+        return new AnimeSearchQuery() {
 
             @Override
             public final List<Anime> search(){
@@ -152,7 +135,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                 final JsonObject[] arr = response.getJsonArray("data");
                 if(arr == null) return null;
                 for(final JsonObject iterator : arr)
-                    anime.add(asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node")));
+                    anime.add(asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node")));
                 return anime;
             }
 
@@ -169,7 +152,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                         convertFields(Fields.anime, fields),
                         nsfw
                     ),
-                    iterator -> asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node"))
+                    iterator -> asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node"))
                 );
             }
         };
@@ -182,64 +165,15 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final Anime getAnime(final long id, final String... fields){
-        return asAnime(this, getAnimeSchema(id, fields));
-    }
-
-    final JsonObject getAnimeSchema(final long id, final String... fields){
-        return handleResponse(
+        return asAnime(this,
+        handleResponse(
             () -> service.getAnime(
                 isTokenAuth ? token : null,
                 !isTokenAuth ? client_id : null,
                 id,
                 convertFields(Fields.anime, fields)
             )
-        );
-    }
-
-    @Override
-    public final AnimeCharacterQuery getAnimeCharacters(final long id){
-        checkExperimentalFeatureEnabled(ExperimentalFeature.CHARACTERS);
-        return new AnimeCharacterQuery(){
-
-            @Override
-            public final List<Character> search(){
-                final JsonObject response = handleResponse(
-                    () -> service.getAnimeCharacters(
-                        isTokenAuth ? token : null,
-                        !isTokenAuth ? client_id : null,
-                        id,
-                        limit,
-                        offset,
-                        convertFields(Fields.character, fields)
-                    )
-                );
-                if(response == null) return null;
-
-                final List<Character> characters = new ArrayList<>();
-                final JsonObject[] arr = response.getJsonArray("data");
-                if(arr == null) return null;
-                for(final JsonObject iterator : arr)
-                    characters.add(MyAnimeListSchema_Character.asCharacter(MyAnimeListImpl.this, iterator.getJsonObject("node")));
-                return characters;
-            }
-
-            @Override
-            public final PaginatedIterator<Character> searchAll(){
-                return new PagedIterator<>(
-                    offset,
-                    offset -> service.getAnimeCharacters(
-                        isTokenAuth ? token : null,
-                        !isTokenAuth ? client_id : null,
-                        id,
-                        limit,
-                        offset,
-                        convertFields(Fields.character, fields)
-                    ),
-                    iterator -> MyAnimeListSchema_Character.asCharacter(MyAnimeListImpl.this, iterator.getJsonObject("node"))
-                );
-            }
-
-        };
+        ));
     }
     
     @Override
@@ -272,7 +206,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final AnimeRankingQuery getAnimeRanking(final String rankingType){
-        return new AnimeRankingQuery(Objects.requireNonNull(rankingType, "Ranking type cannot be null")){
+        return new AnimeRankingQuery(Objects.requireNonNull(rankingType, "Ranking type cannot be null")) {
 
             @Override
             public final List<AnimeRanking> search(){
@@ -318,7 +252,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final AnimeSeasonQuery getAnimeSeason(final int year, final Season season){
-        return new AnimeSeasonQuery(year, Objects.requireNonNull(season, "Season cannot be null")){
+        return new AnimeSeasonQuery(year, Objects.requireNonNull(season, "Season cannot be null")) {
 
             @Override
             public final List<Anime> search(){
@@ -341,7 +275,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                 final JsonObject[] arr = response.getJsonArray("data");
                 if(arr == null) return null;
                 for(final JsonObject iterator : arr)
-                    anime.add(asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node")));
+                    anime.add(asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node")));
                 return anime;
             }
 
@@ -360,7 +294,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                         convertFields(Fields.anime, fields),
                         nsfw
                     ),
-                    iterator -> asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node"))
+                    iterator -> asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node"))
                 );
             }
 
@@ -369,7 +303,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final AnimeSuggestionQuery getAnimeSuggestions(){
-        return new AnimeSuggestionQuery(){
+        return new AnimeSuggestionQuery() {
 
             @Override
             public final List<Anime> search(){
@@ -388,7 +322,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                 final JsonObject[] arr = response.getJsonArray("data");
                 if(arr == null) return null;
                 for(final JsonObject iterator : arr)
-                    anime.add(asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node")));
+                    anime.add(asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node")));
                 return anime;
             }
 
@@ -403,7 +337,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                         convertFields(Fields.anime, fields),
                         nsfw
                     ),
-                    iterator -> asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node"))
+                    iterator -> asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node"))
                 );
             }
 
@@ -412,7 +346,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final AnimeListUpdate updateAnimeListing(final long id){
-        return new AnimeListUpdate(id){
+        return new AnimeListUpdate(id) {
 
             @Override
             public synchronized final AnimeListStatus update(){
@@ -463,7 +397,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final UserAnimeListQuery getUserAnimeListing(final String username){
-        return new UserAnimeListQuery(Objects.requireNonNull(username, "Username cannot be null" )){
+        return new UserAnimeListQuery(Objects.requireNonNull(username, "Username cannot be null" )) {
 
             @Override
             public final List<AnimeListStatus> search(){
@@ -486,7 +420,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                 final JsonObject[] arr = response.getJsonArray("data");
                 if(arr == null) return null;
                 for(final JsonObject iterator : arr)
-                    anime.add(asAnimeListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node"))));
+                    anime.add(asAnimeListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node"))));
                 return anime;
             }
 
@@ -505,33 +439,11 @@ final class MyAnimeListImpl extends MyAnimeList {
                         convertFields(Fields.anime, fields),
                         nsfw
                     ),
-                    iterator -> asAnimeListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asAnime(MyAnimeListImpl.this, iterator.getJsonObject("node")))
+                    iterator -> asAnimeListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asAnimePreview(MyAnimeListImpl.this, iterator.getJsonObject("node")))
                 );
             }
 
         };
-    }
-
-    @Override
-    public final Character getCharacter(final long id){
-        return getCharacter(id, (String[]) null);
-    }
-
-    @Override
-    public final Character getCharacter(final long id, final String... fields){
-        checkExperimentalFeatureEnabled(ExperimentalFeature.CHARACTERS);
-        return asCharacter(MyAnimeListImpl.this, getCharacterSchema(id, fields));
-    }
-
-    final JsonObject getCharacterSchema(final long id, final String... fields){
-        return handleResponse(
-            () -> service.getCharacter(
-                isTokenAuth ? token : null,
-                !isTokenAuth ? client_id : null,
-                id,
-                convertFields(Fields.character, fields)
-            )
-        );
     }
 
     @Override
@@ -573,12 +485,14 @@ final class MyAnimeListImpl extends MyAnimeList {
                 offset
             )
         );
-        return response != null ? asForumTopic(MyAnimeListImpl.this, response.getJsonObject("data"), id) : null;
+        if(response == null) return null;
+
+        return asForumTopic(MyAnimeListImpl.this, response.getJsonObject("data"), id);
     }
 
     @Override
     public final ForumTopicDetailPostQuery getForumTopicDetailPostQuery(final long id){
-        return new ForumTopicDetailPostQuery(){
+        return new ForumTopicDetailPostQuery() {
 
             @Override
             public final List<Post> search(){
@@ -621,7 +535,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final ForumSearchQuery getForumTopics(){
-        return new ForumSearchQuery(){
+        return new ForumSearchQuery() {
 
             @Override
             public final List<ForumTopic> search(){
@@ -674,7 +588,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final MangaSearchQuery getManga(){
-        return new MangaSearchQuery(){
+        return new MangaSearchQuery() {
 
             @Override
             public final List<Manga> search(){
@@ -695,7 +609,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                 final JsonObject[] arr = response.getJsonArray("data");
                 if(arr == null) return null;
                 for(final JsonObject iterator : arr)
-                    manga.add(asManga(MyAnimeListImpl.this, iterator.getJsonObject("node")));
+                    manga.add(asMangaPreview(MyAnimeListImpl.this, iterator.getJsonObject("node")));
                 return manga;
             }
 
@@ -712,7 +626,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                         convertFields(Fields.manga, fields),
                         nsfw
                     ),
-                    iterator -> asManga(MyAnimeListImpl.this, iterator.getJsonObject("node"))
+                    iterator -> asMangaPreview(MyAnimeListImpl.this, iterator.getJsonObject("node"))
                 );
             }
 
@@ -726,18 +640,15 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final Manga getManga(final long id, final String... fields){
-        return asManga(this, getMangaSchema(id, fields));
-    }
-
-    final JsonObject getMangaSchema(final long id, final String... fields){
-        return handleResponse(
+        return asManga(this,
+        handleResponse(
             () -> service.getManga(
                 isTokenAuth ? token : null,
                 !isTokenAuth ? client_id : null,
                 id,
                 convertFields(Fields.manga, fields)
             )
-        );
+        ));
     }
 
     @Override
@@ -747,7 +658,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final MangaRankingQuery getMangaRanking(final String rankingType){
-        return new MangaRankingQuery(Objects.requireNonNull(rankingType, "Ranking type cannot be null")){
+        return new MangaRankingQuery(Objects.requireNonNull(rankingType, "Ranking type cannot be null")) {
 
             @Override
             public final List<MangaRanking> search(){
@@ -794,7 +705,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final MangaListUpdate updateMangaListing(final long id){
-        return new MangaListUpdate(id){
+        return new MangaListUpdate(id) {
 
             @Override
             public synchronized final MangaListStatus update(){
@@ -846,7 +757,7 @@ final class MyAnimeListImpl extends MyAnimeList {
 
     @Override
     public final UserMangaListQuery getUserMangaListing(final String username){
-        return new UserMangaListQuery(Objects.requireNonNull(username, "Username cannot be null")){
+        return new UserMangaListQuery(Objects.requireNonNull(username, "Username cannot be null")) {
 
             @Override
             public final List<MangaListStatus> search(){
@@ -869,7 +780,7 @@ final class MyAnimeListImpl extends MyAnimeList {
                 final JsonObject[] arr = response.getJsonArray("data");
                 if(arr == null) return null;
                 for(final JsonObject iterator : arr)
-                    manga.add(asMangaListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asManga(MyAnimeListImpl.this, iterator.getJsonObject("node"))));
+                    manga.add(asMangaListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asMangaPreview(MyAnimeListImpl.this, iterator.getJsonObject("node"))));
                 return manga;
             }
 
@@ -888,29 +799,11 @@ final class MyAnimeListImpl extends MyAnimeList {
                         convertFields(Fields.manga, fields),
                         nsfw
                     ),
-                    iterator -> asMangaListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asManga(MyAnimeListImpl.this, iterator.getJsonObject("node")))
+                    iterator -> asMangaListStatus(MyAnimeListImpl.this, iterator.getJsonObject("list_status"), asMangaPreview(MyAnimeListImpl.this, iterator.getJsonObject("node")))
                 );
             }
 
         };
-    }
-
-    @Override
-    public final Person getPerson(final long id){
-        return getPerson(id, (String[]) null);
-    }
-
-    @Override
-    public final Person getPerson(final long id, final String... fields){
-        checkExperimentalFeatureEnabled(ExperimentalFeature.PEOPLE);
-        return asPerson(this, handleResponse(
-            () -> service.getPerson(
-                isTokenAuth ? token : null,
-                !isTokenAuth ? client_id : null,
-                id,
-                convertFields(Fields.people, fields)
-            )
-        ));
     }
 
     @Override
@@ -931,7 +824,8 @@ final class MyAnimeListImpl extends MyAnimeList {
     @Override
     public final User getUser(final String username, final String... fields){
         Objects.requireNonNull(username, "Username cannot be null");
-        return asUser(this, handleResponse(
+        return asUser(this,
+        handleResponse(
             () -> service.getUser(
                 Objects.requireNonNull(token, "Client ID not supported for this endpoint, create MyAnimeList object with either an Authenticator or Token"),
                 username.equals("@me") ? "@me" : APICall.encodeUTF8(username),

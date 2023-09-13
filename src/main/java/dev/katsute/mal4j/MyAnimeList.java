@@ -22,14 +22,12 @@ import dev.katsute.mal4j.Json.JsonObject;
 import dev.katsute.mal4j.anime.Anime;
 import dev.katsute.mal4j.anime.property.AnimeRankingType;
 import dev.katsute.mal4j.anime.property.time.Season;
-import dev.katsute.mal4j.character.Character;
 import dev.katsute.mal4j.exception.InvalidTokenException;
 import dev.katsute.mal4j.forum.ForumCategory;
 import dev.katsute.mal4j.forum.ForumTopicDetail;
 import dev.katsute.mal4j.manga.Manga;
 import dev.katsute.mal4j.manga.MangaRanking;
 import dev.katsute.mal4j.manga.property.MangaRankingType;
-import dev.katsute.mal4j.people.Person;
 import dev.katsute.mal4j.property.ExperimentalFeature;
 import dev.katsute.mal4j.query.*;
 import dev.katsute.mal4j.user.User;
@@ -47,7 +45,7 @@ import java.util.List;
  * </ul>
  *
  * @since 1.0.0
- * @version 3.2.0
+ * @version 2.11.0
  * @author Katsute
  */
 public abstract class MyAnimeList {
@@ -173,7 +171,6 @@ public abstract class MyAnimeList {
      *
      * @see Anime
      * @see #getAnime()
-     * @see Fields.Anime
      * @see Fields#anime
      * @since 1.0.0
      */
@@ -189,18 +186,6 @@ public abstract class MyAnimeList {
     
     // Returns Anime Schema JsonObject details requested in the fields given an ID
     public abstract JsonObject getAnimeSchema(final long id, final String... fields);
-
-    /**
-     * Returns characters for an Anime.
-     *
-     * @param id Anime id
-     * @return Anime character query
-     *
-     * @see AnimeCharacterQuery
-     * @see Character
-     * @since 3.1.0
-     */
-    public abstract AnimeCharacterQuery getAnimeCharacters(final long id);
 
 // anime ranking
 
@@ -329,62 +314,6 @@ public abstract class MyAnimeList {
      */
     public abstract UserAnimeListQuery getUserAnimeListing(final String username);
 
-// character
-
-    /**
-     * Returns a character.
-     *
-     * @param id character id
-     * @return character
-     *
-     * @see Character
-     * @see #getCharacter(long, String...)
-     * @since 3.1.0
-     */
-    public abstract Character getCharacter(final long id);
-
-    /**
-     * Returns a character.
-     *
-     * @param id character id
-     * @param fields a string array of the fields that should be returned
-     * @return character
-     *
-     * @see Character
-     * @see #getCharacter(long)
-     * @see Fields.Character
-     * @see Fields#character
-     * @since 3.1.0
-     */
-    public abstract Character getCharacter(final long id, final String... fields);
-
-// person
-
-    /**
-     * Returns a person.
-     *
-     * @param id person id
-     * @return person
-     *
-     * @see Person
-     * @see #getPerson(long, String...)
-     * @since 3.2.0
-     */
-    public abstract Person getPerson(final long id);
-
-    /**
-     * Returns a person.
-     *
-     * @param id person id
-     * @param fields a string array of the fields that should be returned
-     * @return person
-     *
-     * @see Person
-     * @see #getPerson(long)
-     * @since 3.2.0
-     */
-    public abstract Person getPerson(final long id, final String... fields);
-
 // forum board
 
     /**
@@ -475,7 +404,7 @@ public abstract class MyAnimeList {
      *
      * @see MangaSearchQuery
      * @see MangaSearchQuery#search()
-     * @see Manga
+     * @see dev.katsute.mal4j.manga.Manga
      * @since 1.0.0
      */
     public abstract MangaSearchQuery getManga();
@@ -501,7 +430,6 @@ public abstract class MyAnimeList {
      *
      * @see Manga
      * @see #getManga()
-     * @see Fields.Manga
      * @see Fields#manga
      * @since 1.0.0
      */
@@ -623,7 +551,6 @@ public abstract class MyAnimeList {
      *
      * @see User
      * @see #getAuthenticatedUser()
-     * @see Fields.User
      * @see Fields#user
      * @since 2.2.0
      */
@@ -652,7 +579,6 @@ public abstract class MyAnimeList {
      *
      * @see User
      * @see #getUser(String)
-     * @see Fields.User
      * @see Fields#user
      * @since 1.0.0
      */

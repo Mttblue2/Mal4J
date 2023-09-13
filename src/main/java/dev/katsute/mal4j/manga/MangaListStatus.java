@@ -19,9 +19,7 @@
 package dev.katsute.mal4j.manga;
 
 import dev.katsute.mal4j.MyAnimeList;
-import dev.katsute.mal4j.manga.property.MangaRetrievable;
-import dev.katsute.mal4j.manga.property.MangaStatus;
-import dev.katsute.mal4j.manga.property.RereadValue;
+import dev.katsute.mal4j.manga.property.*;
 import dev.katsute.mal4j.property.Editable;
 import dev.katsute.mal4j.property.ListStatus;
 import dev.katsute.mal4j.query.MangaListUpdate;

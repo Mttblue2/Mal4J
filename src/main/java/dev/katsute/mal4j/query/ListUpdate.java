@@ -18,14 +18,9 @@
 
 package dev.katsute.mal4j.query;
 
-import dev.katsute.mal4j.property.FieldEnum;
-import dev.katsute.mal4j.property.ListStatus;
-import dev.katsute.mal4j.property.Priority;
+import dev.katsute.mal4j.property.*;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a list update.

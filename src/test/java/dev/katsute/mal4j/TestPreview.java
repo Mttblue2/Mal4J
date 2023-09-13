@@ -4,9 +4,7 @@ import dev.katsute.mal4j.anime.Anime;
 import dev.katsute.mal4j.anime.property.AnimeRankingType;
 import dev.katsute.mal4j.manga.Manga;
 import dev.katsute.mal4j.manga.property.MangaRankingType;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 final class TestPreview {
 
