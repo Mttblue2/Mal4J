@@ -19,6 +19,7 @@
 package dev.katsute.mal4j;
 
 import dev.katsute.mal4j.APIStruct.Response;
+import dev.katsute.mal4j.Json.JsonObject;
 import dev.katsute.mal4j.anime.*;
 import dev.katsute.mal4j.anime.property.AnimeRankingType;
 import dev.katsute.mal4j.anime.property.time.Season;
@@ -173,6 +174,11 @@ final class MyAnimeListImpl extends MyAnimeList {
                 convertFields(Fields.anime, fields)
             )
         ));
+    }
+    
+    @Override
+    public final Anime getAnime(final JsonObject schema){
+    	return asAnime(this, schema);
     }
     
     @Override
