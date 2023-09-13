@@ -18,7 +18,9 @@
 
 package dev.katsute.mal4j;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 
 import static java.lang.annotation.ElementType.*;

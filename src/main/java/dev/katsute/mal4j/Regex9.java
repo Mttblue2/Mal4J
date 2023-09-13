@@ -36,13 +36,14 @@ abstract class Regex9 {
      * @param replacer replacement function
      * @return replaced string
      */
-    static String replaceAll(final String str, final Matcher matcher, final Function<MatchResult,java.lang.String> replacer) {
+    @SuppressWarnings("StringBufferMayBeStringBuilder")
+    static String replaceAll(final String str, final Matcher matcher, final Function<MatchResult,java.lang.String> replacer){
         Objects.requireNonNull(str);
         Objects.requireNonNull(matcher);
         Objects.requireNonNull(replacer);
         matcher.reset();
         boolean result = matcher.find();
-        if (result) {
+        if (result){
             final StringBuffer sb = new StringBuffer();
             do{
                 java.lang.String replacement = replacer.apply(matcher);

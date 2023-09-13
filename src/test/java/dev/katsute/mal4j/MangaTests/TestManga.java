@@ -1,11 +1,13 @@
 package dev.katsute.mal4j.MangaTests;
 
-import dev.katsute.mal4j.*;
-import dev.katsute.mal4j.anime.RelatedAnime;
+import dev.katsute.mal4j.Fields;
+import dev.katsute.mal4j.MyAnimeList;
+import dev.katsute.mal4j.TestProvider;
 import dev.katsute.mal4j.manga.Manga;
 import dev.katsute.mal4j.manga.property.MangaPublishStatus;
 import dev.katsute.mal4j.manga.property.MangaType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -126,29 +128,15 @@ final class TestManga {
     @Test
     final void testFields(){
         final Manga manga = mal.getManga(TestProvider.MangaID, Fields.Manga.volumes);
-        assertNotNull(manga.getVolumes());
-        assertNull(manga.getChapters());
+        assertFalse(manga.toString().contains(", volumes=null,"));
+        assertTrue(manga.toString().contains(", chapters=null,"));
     }
 
     @Test
     final void testInvertedFields(){
-        final Manga manga = mal.getManga(TestProvider.MangaID, Fields.Manga.volumes, Fields.INVERTED);
-        assertNull(manga.getVolumes());
-        assertNotNull(manga.getChapters());
-    }
-
-    @Test
-    final void testInvertedFieldsOnly(){
-        final Manga manga = mal.getManga(TestProvider.MangaID, Fields.INVERTED);
-        assertNotNull(manga.getVolumes());
-    }
-
-    @Test @DisplayName("Manga may not have related Anime") @Disabled
-    final void testRelatedAnime(){
-        final RelatedAnime relatedAnime = manga.getRelatedAnime()[0];
-        assertNotNull(relatedAnime.getAnime().getID());
-        assertNotNull(relatedAnime.getRelationType());
-        assertNotNull(relatedAnime.getRelationTypeFormat());
+        final Manga manga = mal.getManga(TestProvider.MangaID, Fields.Manga.volumes, Fields.Manga.list_status, Fields.Manga.related_manga, Fields.Manga.recommendations, Fields.INVERTED);
+        assertTrue(manga.toString().contains(", volumes=null,"));
+        assertFalse(manga.toString().contains(", chapters=null,"));
     }
 
     @Test
@@ -157,6 +145,22 @@ final class TestManga {
         assertEquals(MangaType.Unknown, MangaType.asEnum("?"));
 
         assumeTrue(MangaPublishStatus.OnHiatus == mal.getManga(2).getStatus(), "Test will fail when status is not hiatus");
+    }
+
+    @Test
+    final void testPartialRecommendation(){
+        final Manga recommendation = manga.getRecommendations()[0].getManga();
+        final int was = recommendation.toString().length();
+        recommendation.getBackground();
+        assertTrue(recommendation.toString().length() > was);
+    }
+
+    @Test
+    final void testPartialRelated(){
+        final Manga related = manga.getRelatedManga()[0].getManga();
+        final int was = related.toString().length();
+        related.getBackground();
+        assertTrue(related.toString().length() > was);
     }
 
 }

@@ -1,10 +1,14 @@
 package dev.katsute.mal4j.AnimeTests;
 
-import dev.katsute.mal4j.*;
+import dev.katsute.mal4j.Fields;
+import dev.katsute.mal4j.MyAnimeList;
+import dev.katsute.mal4j.TestProvider;
 import dev.katsute.mal4j.anime.AnimeRanking;
 import dev.katsute.mal4j.anime.property.AnimeRankingType;
 import dev.katsute.mal4j.anime.property.AnimeType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

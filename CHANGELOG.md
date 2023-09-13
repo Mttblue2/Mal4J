@@ -1,11 +1,109 @@
 # Changelog
 
+## 3.4.0
+
+### New Features
+
+* Add missing character and people fields [#393](https://github.com/KatsuteDev/Mal4J/pull/393) ([@Katsute](https://github.com/Katsute))
+
+  These are from undocumented features, you must use `MyAnimeList.enableExperimentalFeature(ExperimentalFeature.CHARACTERS)` and `MyAnimeList.enableExperimentalFeature(ExperimentalFeature.PEOPLE)` to enable them.
+
+  * Add favorites count to character and people
+  * Add alternative names and 'more' field to people
+  * Add method to retrieve character biography details as a map
+
+**Full Changelog**: [`3.3.0...3.4.0`](https://github.com/KatsuteDev/Mal4J/compare/3.3.0...3.4.0)
+
+## 3.3.0
+
+### New Features
+
+* Add character pictures [#391](https://github.com/KatsuteDev/Mal4J/pull/391) ([@Katsute](https://github.com/Katsute))
+
+  This is an undocumented feature, you must use `MyAnimeList.enableExperimentalFeature(ExperimentalFeature.CHARACTERS)` to enable it.
+
+**Full Changelog**: [`3.2.0...3.3.0`](https://github.com/KatsuteDev/Mal4J/compare/3.2.0...3.3.0)
+
+## 3.2.0
+
+### New Features
+
+* Add people support [#389](https://github.com/KatsuteDev/Mal4J/pull/389) ([@Katsute](https://github.com/Katsute))
+
+  This is an undocumented feature, you must use `MyAnimeList.enableExperimentalFeature(ExperimentalFeature.PEOPLE)` to enable it.
+
+  Retrieve people using `MyAnimeList.getPerson(id)`.
+
+  Person information currently includes:
+
+   * Name
+   * Birthday
+   * Picture
+
+**Full Changelog**: [`3.1.0...3.2.0`](https://github.com/KatsuteDev/Mal4J/compare/3.1.0...3.2.0)
+
+## 3.1.0
+
+### New Features
+
+* Add character support [#381](https://github.com/KatsuteDev/Mal4J/pull/381) ([@Katsute](https://github.com/Katsute))
+
+  This is an undocumented feature, you must use `MyAnimeList.enableExperimentalFeature(ExperimentalFeature.CHARACTERS)` to enable it.
+
+  Retrieve characters using `MyAnimeList.getCharacter(id)`.
+
+  Character information currently includes:
+
+   * Name
+   * Alternative names
+   * Picture
+   * Biography
+   * Animeography
+* Add ability to retrieve characters from Anime [#385](https://github.com/KatsuteDev/Mal4J/pull/385) ([@Katsute](https://github.com/Katsute))
+
+  This is an undocumented feature, you must use `MyAnimeList.enableExperimentalFeature(ExperimentalFeature.CHARACTERS)` to enable it.
+
+  Retrieve characters using `MyAnimeList.getAnimeCharacters(anime id)` or `Anime.getCharacters()`.
+
+  Character information currently includes:
+
+   * Name
+   * Alternative names
+   * Picture
+   * Biography
+   * Animeography
+
+### Fixes
+
+* Fix incomplete Anime/Manga listings [#386](https://github.com/KatsuteDev/Mal4J/pull/386) ([@Katsute](https://github.com/Katsute))
+   * Anime/Manga recommendation
+   * Related Anime/Manga
+
+### Dependencies
+
+* Bump junit-jupiter from 5.9.2 to 5.9.3 [#377](https://github.com/KatsuteDev/Mal4J/pull/377) ([@mashiro-san](https://github.com/mashiro-san))
+* Bump maven-surefire-plugin from 3.0.0 to 3.1.0 [#378](https://github.com/KatsuteDev/Mal4J/pull/378) ([@dependabot](https://github.com/dependabot))
+* Bump maven-gpg-plugin from 3.0.1 to 3.1.0 [#379](https://github.com/KatsuteDev/Mal4J/pull/379) ([@dependabot](https://github.com/dependabot))
+* Bump maven-source-plugin from 3.2.1 to 3.3.0 [#383](https://github.com/KatsuteDev/Mal4J/pull/383) ([@dependabot](https://github.com/dependabot))
+
+**Full Changelog**: [`3.0.3...3.1.0`](https://github.com/KatsuteDev/Mal4J/compare/3.0.3...3.1.0)
+
+## 3.0.3
+
+### 📘 Dependencies
+
+* Bump maven-compiler-plugin from 3.10.1 to 3.11.0 [#368](https://github.com/KatsuteDev/Mal4J/pull/368) ([@dependabot](https://github.com/dependabot))
+* Bump maven-surefire-plugin from 3.0.0-M9 to 3.0.0 [#370](https://github.com/KatsuteDev/Mal4J/pull/370) ([@dependabot](https://github.com/dependabot))
+
+**Full Changelog**: [`3.0.2...3.0.3`](https://github.com/KatsuteDev/Mal4J/compare/3.0.2...3.0.3)
+
 ## 3.0.2
 
 ### 🔧 Optimizations
 
 * Schema parsing optimizations [#363](https://github.com/KatsuteDev/Mal4J/pull/363) ([@Katsute](https://github.com/Katsute))
 * JSON parsing optimizations [#364](https://github.com/KatsuteDev/Mal4J/pull/364) ([@Katsute](https://github.com/Katsute))
+
   This library is now 70% faster after this change.
 
 ### 📘 Dependencies

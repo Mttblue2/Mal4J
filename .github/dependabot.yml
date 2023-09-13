@@ -2,23 +2,24 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
-    labels:
-      - dependencies
-    assignees:
-      - Katsute
+    labels: [dependencies]
+    assignees: [Katsute]
     schedule:
-      interval: daily
-      time: '07:00'
+      interval: weekly
+      day: monday
+      time: "07:00"
       timezone: US/Eastern
-    open-pull-requests-limit: 99
+    open-pull-requests-limit: 10
   - package-ecosystem: maven
     directory: /
-    labels:
-      - dependencies
-    assignees:
-      - Katsute
+    labels: [dependencies]
+    assignees: [Katsute]
     schedule:
-      interval: daily
-      time: '07:00'
+      interval: weekly
+      day: monday
+      time: "07:00"
       timezone: US/Eastern
-    open-pull-requests-limit: 99
+    open-pull-requests-limit: 10
+    groups:
+      junit:
+        patterns: [org.junit.jupiter:*]
