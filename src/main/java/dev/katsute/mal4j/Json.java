@@ -746,7 +746,7 @@ public final class Json {
         public final Object get(final String key){
             return map.get(key);
         }
-        
+
         public final String getString(final String key){
             final Object value = map.get(key);
             return value == null ? null : value instanceof String ? (String) value : value.toString();
@@ -857,10 +857,6 @@ public final class Json {
 
         public final int size(){
             return map.size();
-        }
-        
-        public final long getID() {
-        	return getLong("id");
         }
 
         private void set(final String key, final Object value){

@@ -176,9 +176,6 @@ public abstract class MyAnimeList {
      */
     public abstract Anime getAnime(final long id, final String... fields);
     
-    // Returns Anime from a given JsonObject schema
-    public abstract Anime getAnime(final JsonObject schema);
-    
 //	anime schema
     
     // Returns full Anime Schema JsonObject from a given ID
